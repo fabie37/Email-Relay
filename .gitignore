@@ -1,0 +1,6 @@
+aws_credentials.csv
+aws_config.json
+gmail_client_secret.json
+gmail_token.json
+__pycache__
+/venv
