@@ -53,7 +53,6 @@ class Relay:
             Return value:
                 Optional : Message | None
         """
-        print("Called get unread")
         query = {
             "sender":email_address,
             "unread":True}
