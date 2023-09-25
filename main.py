@@ -10,7 +10,7 @@ sender = "fabrizio@catinella.co.uk"
 client_list = ["fabrizio@catinella.co.uk"]
 
 relay = Relay(gmail_secret_filename, aws_config, aws_credentials)
-
 email = relay.get_first_unread_email("fabrizio@catinella.co.uk")
 relay.match_and_replace(email, r"(https?://(www.)?)?fabsapi\.com/((?!\")\S)+", "https://google.com")
+email.mark_as_read()
 relay.send_mail(sender, client_list, email)

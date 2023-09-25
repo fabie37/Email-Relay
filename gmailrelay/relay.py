@@ -41,12 +41,14 @@ class Relay:
         
         print("Done sending")
 
-    def get_first_unread_email(self, email_address:str) -> Optional[Message]:
+    def get_first_unread_email(self, email_address:str, read:bool=True) -> Optional[Message]:
         """
-            Gets the first available email, in the unread email box given an email address
+            Gets the first available email, in the unread email box given an email address.
+            Will automatically mark the message as read by default (read=True)
 
             Attributes:
-                email_address : Str
+                email_address : Str ~ The target email address to read from
+                read:bool = True    ~ If true, marks email as read in your inbox.
 
             Return value:
                 Optional : Message | None
@@ -57,6 +59,8 @@ class Relay:
             "unread":True}
         messages = self.gmail.get_messages(query=construct_query(query), attachments='reference')
         if messages:
+            if read:
+                messages[0].mark_as_read()
             return messages[0]
         return None
     
