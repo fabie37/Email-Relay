@@ -36,7 +36,8 @@ class Relay:
             message['to'] = r
             try:
                 self.ses.sendmail(message)
-            except Exception:
+                print(f"Successfully sent email to {r}")
+            except ConnectionError:
                 print(f"Failed to send mail to {r}")
         
         print("Done sending")

@@ -44,12 +44,15 @@ class SES():
         """
         context = ssl.create_default_context()
         with SMTP(self.host, self.port) as server:
-            server.ehlo()
-            server.starttls(context=context)
-            server.ehlo()
-            server.login(self.smtp_user, self.smtp_password)
-            msg = self._create_email(email)
-            server.sendmail(email["from"], email["to"], msg.as_string())
+            try:
+                server.ehlo()
+                server.starttls(context=context)
+                server.ehlo()
+                server.login(self.smtp_user, self.smtp_password)
+                msg = self._create_email(email)
+                server.sendmail(email["from"], email["to"], msg.as_string())
+            except Exception as exc:
+                raise ConnectionError("Failed to connect to AWS") from exc
   
     def _read_config(self, config):
         with open(config, encoding="ascii") as file:
