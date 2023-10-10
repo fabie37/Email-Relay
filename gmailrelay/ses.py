@@ -4,6 +4,7 @@ import ssl
 from smtplib import SMTP
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from simplegmail.message import Message
 
 class SES():
     """
@@ -28,7 +29,7 @@ class SES():
         self._read_credentials_csv(credentials)
         self._read_config(config)
     
-    def sendmail(self, email):
+    def sendmail(self, email:Message):
         """
             Sends an email to given SMTP client.
 
@@ -54,13 +55,27 @@ class SES():
             except Exception as exc:
                 raise ConnectionError("Failed to connect to AWS") from exc
   
-    def _read_config(self, config):
+    def _read_config(self, config:str):
+        """
+            Private Function:
+                Reads a config file (e.g. aws_config.json), giving the program the host address and port number 
+                for SMTP server
+            
+            config:str
+                Filename of config file.
+        """
         with open(config, encoding="ascii") as file:
             data = json.load(file)
             self.host = data["host"]
             self.port = data["port"]
 
-    def _create_email(self, email):
+    def _create_email(self, email:Message):
+        """
+            Private Function:
+                Creates an email from a Message obj from simplegmail lib
+            
+            email:Message
+        """
         msg = MIMEMultipart('alternative')
         msg['Subject'] = email["subject"]
         msg['From'] = email["from"]
@@ -71,7 +86,16 @@ class SES():
         msg.attach(html_part)
         return msg
         
-    def _read_credentials_csv(self, credentials):
+    def _read_credentials_csv(self, credentials:str):
+        """
+            Private Function:
+                Given the a filename e.g. "aws_credentials.csv" 
+                Reads the AWS credential file and stores it in this class for authenticating 
+                when sending an email
+
+            credentials:str
+                Filename of csv file with AWS credentials. 
+        """
         self.iam_user = None    
         self.smtp_user = None
         self.smtp_password = None
