@@ -25,7 +25,7 @@ email = relay.get_first_unread_email(search_for)
 if email:
     for client in client_list:
         relay.match_and_replace(email, r'https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&=]*)', HOST_URL)
-        relay.match_and_replace(email, r'(?<=href=\")[^\"]*(?=".*>Unsubscribe<\/a>)', UNSUBSCRIBE_URL + '/' + email['hash'])
+        relay.match_and_replace(email, r'(?<=href=\")[^\"]*(?=".*>Unsubscribe<\/a>)', UNSUBSCRIBE_URL + '/' + client['hash'])
         relay.send_mail(sender, client["email"], email)
 
 print("Finished Script.")
