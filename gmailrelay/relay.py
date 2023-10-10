@@ -31,7 +31,7 @@ class Relay:
         message['subject'] = email.subject
         message['plain'] = email.plain
         message['html'] = email.html
-        message['to'] = recipient["email"]
+        message['to'] = recipient
 
         try:
             self.ses.sendmail(message)
