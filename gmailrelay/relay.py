@@ -25,7 +25,24 @@ class Relay:
         self.aws_credentials_filename = aws_credentials_filename
         self.ses = SES(aws_credentials_filename, aws_config_filename)
     
-    def send_mail(self, sender:str, receipients:[str], email:Message):
+    def send_mail(self, sender:str, recipient:[str], email:Message):
+        message = {}
+        message['from'] = sender
+        message['subject'] = email.subject
+        message['plain'] = email.plain
+        message['html'] = email.html
+        message['to'] = recipient["email"]
+
+        try:
+            self.ses.sendmail(message)
+            print(f"Successfuly sent email to {message['to']}")
+        except ConnectionError as connection_err:
+            print(f"Failed to send mail to {recipient}")
+            print(connection_err)
+        
+        print("Done sending")
+    
+    def send_mails(self, sender:str, receipients:[str], email:Message):
         message = {}
         message['from'] = sender
         message['subject'] = email.subject
