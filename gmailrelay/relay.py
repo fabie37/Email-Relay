@@ -25,7 +25,7 @@ class Relay:
         self.aws_credentials_filename = aws_credentials_filename
         self.ses = SES(aws_credentials_filename, aws_config_filename)
     
-    def send_mail(self, sender:str, recipient:[str], email:Message):
+    def send_mail(self, sender:str, recipient:str, email:Message):
         message = {}
         message['from'] = sender
         message['subject'] = email.subject
